@@ -13,7 +13,7 @@ import {
 const productRoute = Router();
 
 productRoute.post("/products", autenticate, createProduct);
-productRoute.get("/products", autenticate, getAllProduct);
+productRoute.get("/products", getAllProduct);
 productRoute.get("/products/:id", autenticate, getProductById);
 productRoute.get("/products/category/:id", autenticate, getProductByCategory);
 productRoute.put("/products/:id", autenticate, updateProduct);
