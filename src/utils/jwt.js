@@ -1,6 +1,6 @@
 import JsonWebToken from "jsonwebtoken";
 import "dotenv/config";
-import { logger } from "./winston.js";
+import logger from "./winston.js";
 
 const generateAccessToken = (user) => {
   return JsonWebToken.sign(user, process.env.JWT_SECRET, {
