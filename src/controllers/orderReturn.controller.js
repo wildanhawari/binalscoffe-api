@@ -1,6 +1,7 @@
 import prisma from "../utils/client.js";
 import { setOrderCode } from "../utils/documentPatern.js";
-import { logger } from "../utils/winston.js";
+import logger from "../utils/winston.js";
+
 import { orderReturnValidation } from "../validations/orderReturn.validation.js";
 
 export const insertOrderReturn = async (req, res) => {

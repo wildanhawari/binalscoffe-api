@@ -1,6 +1,7 @@
 import prisma from "../utils/client.js";
 import { setOrderCode } from "../utils/documentPatern.js";
-import { logger } from "../utils/winston.js";
+import logger from "../utils/winston.js";
+
 import { purchaseValidation } from "../validations/purchase.validation.js";
 import fs from "fs";
 import pdf from "pdf-creator-node";
