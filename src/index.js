@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors'; // Pastikan sudah diimpor
 import 'dotenv/config';
-import apiRoutes from './route/index.js';
+import apiRoutes from './routes/index.js';
 
 const app = express();
 
