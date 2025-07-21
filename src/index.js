@@ -7,10 +7,24 @@ const app = express();
 
 // --- Konfigurasi CORS ---
 // Izinkan permintaan HANYA dari domain frontend Anda
+// Daftar domain yang diizinkan untuk mengakses API Anda
+const allowedOrigins = [
+  'https://binalscoffe.fikti.com',
+  'http://localhost:5173'
+];
+
 const corsOptions = {
-  origin: 'https://binalscoffe.fikti.com',
-  optionsSuccessStatus: 200 
+  origin: function (origin, callback) {
+    // Izinkan jika domain ada di dalam whitelist atau jika request tidak memiliki origin (misal: dari Postman)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200
 };
+
 app.use(cors(corsOptions));
 
 
