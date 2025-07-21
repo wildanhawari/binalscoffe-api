@@ -17,6 +17,9 @@ router.use("/api", cartRoute);
 router.use("/api", orderRouter);
 router.use("/api", orderReturnRouter);
 router.use("/api", purchaseRouter);
+router.get("/", (req, res) => {
+  res.status(200).json({ message: "API is alive!" });
+});
 router.use("*", (req, res) => {
   res.status(404).json({
     message: "Not Found",
