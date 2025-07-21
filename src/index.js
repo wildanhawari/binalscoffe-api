@@ -1,21 +1,19 @@
-import express from 'express';
-import cors from 'cors'; // Pastikan sudah diimpor
+import express from "express";
+import cors from "cors";
+import fileUpload from "express-fileupload";
 import 'dotenv/config';
 import apiRoutes from './routes/index.js';
 
 const app = express();
 
 // --- Konfigurasi CORS ---
-// Izinkan permintaan HANYA dari domain frontend Anda
-// Daftar domain yang diizinkan untuk mengakses API Anda
 const allowedOrigins = [
-  'https://binalscoffe.fikti.com',
-  'http://localhost:5173'
+  'https://binalscoffe.fikti.com', // Domain Frontend Produksi Anda
+  'http://localhost:5173'         // Untuk development lokal
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Izinkan jika domain ada di dalam whitelist atau jika request tidak memiliki origin (misal: dari Postman)
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -25,25 +23,22 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-app.use(cors(corsOptions));
-
-
-// Middleware dasar lainnya
-app.use(express.json());
+// --- Middleware Utama ---
+app.use(cors(corsOptions)); // Terapkan CORS yang sudah dikonfigurasi
+app.use(express.json());   // Untuk parsing body JSON
+app.use(fileUpload());     // Untuk menangani upload file
 
 // --- Rute API ---
-// Semua rute API Anda berada di sini
+// Semua rute dari file routes/index.js akan memiliki awalan /api
 app.use('/api', apiRoutes);
 
+// --- Jalankan Server (Hanya untuk Development Lokal) ---
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
+  });
+}
 
-// BLOK KODE UNTUK MENYAJIKAN FRONTEND SUDAH DIHAPUS
-
-
-// Jalankan server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server berjalan di http://localhost:${PORT}`);
-});
-
-// Ekspor untuk Vercel
+// --- Ekspor Aplikasi untuk Vercel ---
 export default app;

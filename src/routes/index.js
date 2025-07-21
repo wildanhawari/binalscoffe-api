@@ -7,22 +7,29 @@ import cartRoute from "./cart.route.js";
 import orderRouter from "./order.route.js";
 import orderReturnRouter from "./orderReturn.route.js";
 import purchaseRouter from "./purchase.route.js";
+
 const router = Router();
 
-router.use("/api", userRouter);
-router.use("/api", categoryRoute);
-router.use("/api", supplierRouter);
-router.use("/api", productRoute);
-router.use("/api", cartRoute);
-router.use("/api", orderRouter);
-router.use("/api", orderReturnRouter);
-router.use("/api", purchaseRouter);
+// Awalan /api sudah ditangani di index.js utama
+// Jadi di sini kita langsung mendaftarkan rutenya
+router.use("/users", userRouter);
+router.use("/categorys", categoryRoute);
+router.use("/suppliers", supplierRouter);
+router.use("/products", productRoute);
+router.use("/carts", cartRoute);
+router.use("/orders", orderRouter);
+router.use("/order-returns", orderReturnRouter);
+router.use("/purchases", purchaseRouter);
+
+// Health check untuk /api
 router.get("/", (req, res) => {
   res.status(200).json({ message: "API is alive!" });
 });
+
+// Tangani 404 untuk rute di bawah /api
 router.use("*", (req, res) => {
   res.status(404).json({
-    message: "Not Found",
+    message: "API endpoint not found",
   });
 });
 
