@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { productValidation } from "../validations/product.validation.js";
 import { setCode } from "../utils/documentPatern.js";
-import { logger } from "../utils/winston.js";
+import logger from "../utils/winston.js";
 import prisma from "../utils/client.js";
 import path from "path";
 import fs from "fs";
