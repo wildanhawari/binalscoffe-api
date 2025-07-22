@@ -26,12 +26,11 @@
   },
   "type": "module",
   "scripts": {
-  "postinstall": "prisma generate",
-  "build": "prisma generate && tsc",
-  "start": "node src/index.js",
-  "dev": "nodemon src/index.js"
-}
-,
+    "build": "prisma generate && npx prisma migrate deploy",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "generate": "prisma generate"
+  },
   "engines": {
     "node": ">=18.0.0"
   }

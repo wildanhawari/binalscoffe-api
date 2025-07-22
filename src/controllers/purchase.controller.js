@@ -1,7 +1,6 @@
 import prisma from "../utils/client.js";
 import { setOrderCode } from "../utils/documentPatern.js";
-import logger from "../utils/winston.js";
-
+import { logger } from "../utils/winston.js";
 import { purchaseValidation } from "../validations/purchase.validation.js";
 import fs from "fs";
 import pdf from "pdf-creator-node";
@@ -96,43 +95,43 @@ export const getAllPurchase = async (req, res) => {
   let result = [];
   try {
     if (last_id < 1) {
+      const searchPattern = `%${search}%`;
       result = await prisma.$queryRaw`
-        SELECT 
-              p.id, p.code, p.date, p.note, p.userId, u.name 
-          FROM  Purchase p 
-          INNER JOIN  User u 
-          ON p.userId = u.id
-          WHERE 
-              p.code LIKE CONCAT('%', ${search}, '%')
-              OR p.date LIKE CONCAT('%', ${search}, '%')
-              OR p.note LIKE CONCAT('%', ${search}, '%')
-              OR u.name LIKE CONCAT('%', ${search}, '%')
-          ORDER BY 
-              p.id DESC 
-          LIMIT ${limit};
-      `;
+        SELECT
+          p.id, p.code, p.date, p.note, p.userId, u.name
+        FROM purchase p
+        INNER JOIN user u ON p.userId = u.id
+        WHERE (
+          p.code LIKE ${searchPattern}
+          OR p.date LIKE ${searchPattern}
+          OR p.note LIKE ${searchPattern}
+          OR u.name LIKE ${searchPattern}
+        )
+        ORDER BY p.id DESC 
+        LIMIT ${parseInt(limit, 10)}`;
     } else {
+      const searchPattern = `%${search}%`;
+      const lastId = parseInt(last_id, 10);
+      const limitValue = parseInt(limit, 10);
+
       result = await prisma.$queryRaw`
-         SELECT 
-            p.id, p.code, p.date, p.note, p.userId, u.name 
-        FROM  Purchase p 
-        INNER JOIN User u 
-        ON p.userId = u.id
-        WHERE 
-            (
-              p.code LIKE CONCAT('%', ${search}, '%')
-              OR p.date LIKE CONCAT('%', ${search}, '%')
-              OR p.note LIKE CONCAT('%', ${search}, '%')
-              OR u.name LIKE CONCAT('%', ${search}, '%')
-            )
-            AND p.id < ${last_id}
-        ORDER BY 
-            p.id DESC 
-        LIMIT ${limit};`;
+        SELECT
+          p.id, p.code, p.date, p.note, p.userId, u.name
+        FROM purchase p
+        INNER JOIN user u ON p.userId = u.id
+        WHERE (
+          p.code LIKE ${searchPattern}
+          OR p.date LIKE ${searchPattern}
+          OR p.note LIKE ${searchPattern}
+          OR u.name LIKE ${searchPattern}
+        )
+        AND p.id < ${lastId}
+        ORDER BY p.id DESC 
+        LIMIT ${limitValue}`;
     }
     return res.status(200).json({
       message: "success",
-      result: result,
+      result,
       lastId: result.length > 0 ? result[result.length - 1].id : 0,
       hasMore: result.length >= limit ? true : false,
     });

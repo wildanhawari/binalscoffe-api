@@ -1,8 +1,7 @@
 import "dotenv/config";
 import { productValidation } from "../validations/product.validation.js";
 import { setCode } from "../utils/documentPatern.js";
-import logger from "../utils/winston.js";
-
+import { logger } from "../utils/winston.js";
 import prisma from "../utils/client.js";
 import path from "path";
 import fs from "fs";
@@ -103,7 +102,7 @@ export const getAllProduct = async (req, res) => {
               createdAt, 
               updatedAt 
           FROM 
-              Product 
+              product 
           WHERE 
               (
                   code LIKE ${`%${search}%`}
@@ -132,7 +131,7 @@ export const getAllProduct = async (req, res) => {
               createdAt, 
               updatedAt 
           FROM 
-              Product 
+              product 
           WHERE 
               (
                   code LIKE ${`%${search}%`}
