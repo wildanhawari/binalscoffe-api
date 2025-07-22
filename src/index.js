@@ -33,7 +33,7 @@ app.use(express.json());
 
 // --- Rute API ---
 // Semua rute API Anda berada di sini
-app.use('/api', apiRoutes);
+// app.use('/api', apiRoutes);
 
 
 // BLOK KODE UNTUK MENYAJIKAN FRONTEND SUDAH DIHAPUS
