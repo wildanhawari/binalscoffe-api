@@ -28,8 +28,8 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "node index.js",
-    "start": "node index.js",
+    "dev": "node src/index.js",
+    "start": "node src/index.js",
     "build": "npx prisma generate",
     "postinstall": "npx prisma generate",
     "db:deploy": "npx prisma migrate deploy",
